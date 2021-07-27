@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
+
+public class ShadowDirectionalLightHelper : MonoBehaviour
+{
+
+    public HDAdditionalLightData ShadowControl;
+    public float updatetime = 0.1f;
+    public bool onDemandAtStart = true;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        ShadowControl = GetComponent<HDAdditionalLightData>();
+        if (onDemandAtStart)
+        {
+            ShadowControl.SetShadowUpdateMode(ShadowUpdateMode.OnDemand);
+            InvokeRepeating("SnapshotShadows", 0.1f, updatetime);
+        }
+
+        
+    }
+
+    private void OnEnable()
+    {
+        if (onDemandAtStart)
+        {
+
+            ShadowControl.SetShadowUpdateMode(ShadowUpdateMode.OnDemand);
+            InvokeRepeating("SnapshotShadows", 0.1f, updatetime);
+        }
+    }
+
+    public void SnapshotShadows()
+    {
+        ShadowControl.RequestShadowMapRendering();
+    }
+
+    IEnumerator SetShadows()
+    {
+        ShadowControl.SetShadowUpdateMode(ShadowUpdateMode.OnDemand);
+        yield return null;
+    }
+
+    void OnDisable()
+    {
+        CancelInvoke("SnapshotShadows");
+    }
+}
