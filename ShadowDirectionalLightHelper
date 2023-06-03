@@ -7,7 +7,7 @@ public class ShadowDirectionalLightHelper : MonoBehaviour
 {
 
     public HDAdditionalLightData ShadowControl;
-    public float updatetime = 0.1f;
+    public float updateShadowsTime = 0.015f;
     public bool onDemandAtStart = true;
     
     // Start is called before the first frame update
@@ -16,32 +16,16 @@ public class ShadowDirectionalLightHelper : MonoBehaviour
         ShadowControl = GetComponent<HDAdditionalLightData>();
         if (onDemandAtStart)
         {
+            ShadowControl.preserveCachedShadow = true
             ShadowControl.SetShadowUpdateMode(ShadowUpdateMode.OnDemand);
-            InvokeRepeating("SnapshotShadows", 0.1f, updatetime);
+            InvokeRepeating("SnapshotShadows", updateShadowsTime, updateShadowsTime);
         }
 
-        
-    }
-
-    private void OnEnable()
-    {
-        if (onDemandAtStart)
-        {
-
-            ShadowControl.SetShadowUpdateMode(ShadowUpdateMode.OnDemand);
-            InvokeRepeating("SnapshotShadows", 0.1f, updatetime);
-        }
     }
 
     public void SnapshotShadows()
     {
         ShadowControl.RequestShadowMapRendering();
-    }
-
-    IEnumerator SetShadows()
-    {
-        ShadowControl.SetShadowUpdateMode(ShadowUpdateMode.OnDemand);
-        yield return null;
     }
 
     void OnDisable()
