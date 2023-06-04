@@ -16,7 +16,7 @@ public class ShadowDirectionalLightHelper : MonoBehaviour
         ShadowControl = GetComponent<HDAdditionalLightData>();
         if (onDemandAtStart)
         {
-            ShadowControl.preserveCachedShadow = true
+            ShadowControl.preserveCachedShadow = true;
             ShadowControl.SetShadowUpdateMode(ShadowUpdateMode.OnDemand);
             InvokeRepeating("SnapshotShadows", updateShadowsTime, updateShadowsTime);
         }
