@@ -16,6 +16,14 @@ public class LookAtWithLimits : MonoBehaviour
 
         Debug.Log($"AimY: {aimY}, AimX: {aimX}");
         lookComponent.SetAimTargetRotation(new Vector2(aimX, aimY));
+        /*
+        Add a method to LookComponent:
+        public void SetAimTargetRotation(Vector2 newAimRot)
+        {
+                aimUp = Mathf.Clamp(newAimRot.x, -90f, 90f);
+                aimRight = Mathf.Clamp(newAimRot.y, -90f, 90f)
+        }
+        */
     }
 
     private void ComputeHorizontalRotation()
